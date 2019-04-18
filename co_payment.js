@@ -119,6 +119,8 @@ function validateNumber() {
             cardNumber.setCustomValidity("Enter your card number");
       } else if (cardNumber.validity.patternMismatch) {
             cardNumber.setCustomValidity("Enter a valid card number");
+      } else if (!luhn(cardNumber.value)) {
+            cardNumber.setCustomValidity("Enter a legitimate card number");
       } else {
             cardNumber.setCustomValidity("");
       }
@@ -151,9 +153,17 @@ function sumDigits(numStr) {
 }
 
 function luhn(idNum) {
+      var string1 = "";
+      var string2 = "";
       // retrieve the odd numbered digits
+      for (var i = idNum.length - 1; i >= 0; i -= 2) {
+            string1 += idNum.charAt(i);
+      }
 
       // retrieve the even number digits
-
+      for (var i = idNum.length - 2; i >= 0; i -= 2) {
+            string2 += 2 * idNum.charAt(i);
+      }
       // return wheter the sum of the digits is dvisible by 10.
+      return (sumDigits(string1 + string2) % 10) === 0;
 }
